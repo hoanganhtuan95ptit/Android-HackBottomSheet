@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.HackBottomSheet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="DialogNoAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_none</item>
+        <item name="android:windowExitAnimation">@anim/anim_none</item>
+    </style>
+</resources>

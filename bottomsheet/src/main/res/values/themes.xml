@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DialogNoAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_none</item>
+        <item name="android:windowExitAnimation">@anim/anim_none</item>
+    </style>
+</resources>
