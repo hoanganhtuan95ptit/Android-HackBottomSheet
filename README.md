@@ -31,3 +31,5 @@ open class BaseBottomSheetDialogFragment(contentLayoutId: Int) : BottomSheetDial
     }
 }
 ```
+
+This library may not really be optimal, but I look forward to receiving public contributions to improve the library.
