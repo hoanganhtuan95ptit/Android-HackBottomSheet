@@ -1,4 +1,4 @@
-package com.tuanhoang.bottomsheet
+package com.simple.bottomsheet
 
 import org.junit.Test
 

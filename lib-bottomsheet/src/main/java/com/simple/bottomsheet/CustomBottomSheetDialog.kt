@@ -1,4 +1,4 @@
-package com.tuanhoang.bottomsheet
+package com.simple.bottomsheet
 
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
@@ -14,11 +14,11 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.view.doOnLayout
+import androidx.core.view.doOnPreDraw
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.tuanhoang.bottomsheet.utils.ext.getHeightNavigationBar
-import com.tuanhoang.bottomsheet.utils.ext.getHeightStatusBar
-import java.lang.ref.WeakReference
+import com.simple.bottomsheet.utils.ext.getHeightNavigationBar
+import com.simple.bottomsheet.utils.ext.getHeightStatusBar
 import kotlin.math.max
 import kotlin.math.min
 
@@ -98,13 +98,13 @@ open class CustomBottomSheetDialog(context: Context, theme: Int) : BottomSheetDi
 
         val rootView = rootView ?: return
 
-        rootView.doOnLayout {
+        rootView.doOnPreDraw {
 
             bottomSheet!!.setBackgroundResource(android.R.color.transparent)
 
             if (!isSupportAnimation) {
 
-                return@doOnLayout
+                return@doOnPreDraw
             }
 
             rootView.translationY = rootView.height.toFloat() + ownerActivity!!.getHeightNavigationBar()
@@ -307,7 +307,7 @@ open class CustomBottomSheetDialog(context: Context, theme: Int) : BottomSheetDi
 private object Manager {
 
 
-    private val activityAndListDialog: WeakReference<HashMap<Activity, ArrayList<CustomBottomSheetDialog>>> = WeakReference(hashMapOf())
+    private val activityAndListDialog: HashMap<Activity, ArrayList<CustomBottomSheetDialog>> = hashMapOf()
 
 
     fun updateProgress(dialog: CustomBottomSheetDialog, percent: Float) {
@@ -317,7 +317,7 @@ private object Manager {
 
         val activityDecorView = activity.window.decorView
 
-        val activityAndListDialog = activityAndListDialog.get() ?: return
+        val activityAndListDialog = activityAndListDialog ?: return
 
 
         val list: ArrayList<CustomBottomSheetDialog> = activityAndListDialog[activity] ?: arrayListOf<CustomBottomSheetDialog>().apply {
@@ -345,7 +345,10 @@ private object Manager {
         dialogCurrent?.background?.alpha = percent * alphaMax
 
 
-        val contentView = dialogBefore?.rootView ?: activityDecorView.findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
+        val contentView = dialogBefore?.rootView ?: activityDecorView.findViewById<ViewGroup>(android.R.id.content).getChildAt(0).apply {
+
+            (activity as? ActivityScreen)?.onPercent(percent)
+        }
 
 
         if (percent == 0f && list.contains(dialog)) list.remove(dialog)
@@ -360,4 +363,9 @@ private object Manager {
         contentView.scaleY = (1 - scale)
         contentView.translationY = translationY
     }
+}
+
+interface ActivityScreen {
+
+    fun onPercent(percent: Float)
 }

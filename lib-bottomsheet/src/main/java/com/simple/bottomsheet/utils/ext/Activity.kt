@@ -1,4 +1,4 @@
-package com.tuanhoang.bottomsheet.utils.ext
+package com.simple.bottomsheet.utils.ext
 
 import android.app.Activity
 import android.os.Build

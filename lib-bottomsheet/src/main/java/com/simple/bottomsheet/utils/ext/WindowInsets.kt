@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.tuanhoang.bottomsheet.utils.ext
+package com.simple.bottomsheet.utils.ext
 
 import android.os.Build
 import android.view.WindowInsets
