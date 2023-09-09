@@ -7,12 +7,15 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.annotation.AttrRes
 import androidx.core.animation.doOnEnd
+import androidx.core.view.children
 import androidx.core.view.doOnLayout
 import androidx.core.view.doOnPreDraw
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -60,9 +63,11 @@ open class CustomBottomSheetDialog(context: Context, theme: Int) : BottomSheetDi
 
         if (isSupportAnimation) {
 
+            val colorBackground = bottomSheet?.children?.firstOrNull()?.context?.getColorFromAttr(com.google.android.material.R.attr.colorOnBackground) ?: Color.BLACK
+
             background = View(context)
             background!!.alpha = 0f
-            background!!.setBackgroundColor(Color.BLACK)
+            background!!.setBackgroundColor(colorBackground)
             findViewById<ViewGroup>(com.google.android.material.R.id.container)!!.addView(background, 0)
 
             window?.setDimAmount(0f)
@@ -301,6 +306,12 @@ open class CustomBottomSheetDialog(context: Context, theme: Int) : BottomSheetDi
         animator.start()
 
         return animator
+    }
+
+    private fun Context.getColorFromAttr(@AttrRes attrColor: Int): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(attrColor, typedValue, true)
+        return typedValue.data
     }
 }
 
